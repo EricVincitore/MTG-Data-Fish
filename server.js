@@ -1,4 +1,3 @@
-import { Mongoose } from "mongoose";
 var express = require("express");
 var mongoose = require("mongoose");
 
@@ -10,10 +9,10 @@ var db = require("./models");
 var app = express();
 
 //if deployed, use yhe deployed database. Otherwise use hte local mongoHeadlines database
-var MONGOD_URI = process.env.MONGODB_URI || "mongodb://user1:password1@ds117888.mlab.com:17888/heroku_78c10xl3";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user1:password1@ds117888.mlab.com:17888/heroku_78c10xl3";
 
 //connect to the mongo DB
-mongoose.connect(MONGOD_URI);
+mongoose.connect(MONGODB_URI);
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
