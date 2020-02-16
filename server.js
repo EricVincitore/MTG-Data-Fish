@@ -14,7 +14,7 @@ var app = express();
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user1:password1@ds117888.mlab.com:17888/heroku_78c10xl3";
 
 //connect to the mongo DB
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.get("/", function (req, res) {
 
@@ -32,7 +32,7 @@ app.get("/homepage", function (req, res) {
     var $ = cheerio.load(response.data);
 
     // An empty array to save the data that we'll scrape
-    var results = [];
+    var result = {};
 
     // Select each element in the HTML body from which you want information.
     // NOTE: Cheerio selectors function similarly to jQuery's selectors,
@@ -44,11 +44,13 @@ app.get("/homepage", function (req, res) {
       var link = $(element).find(".stealth-link").attr("href");
 
       // Save these results in an object that we'll push into the results array we defined earlier
-      results.push({
+      result.push({
         title: title,
         description: description,
         link: "https://www.mtggoldfish.com" + link
       });
+
+      console.log(result)
 
       db.Article.create(result)
         .then(function (dbArticle) {
