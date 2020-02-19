@@ -1,7 +1,7 @@
 var express = require("express");
 var logger = require("morgan");
 var handlebars = require("express-handlebars");
-var mongoose = require("mongoose")
+var mongoose = require("mongoose");
 
 var PORT = process.env.PORT || 3000;
 
@@ -29,5 +29,5 @@ var htmlRoutes = require("./routes/html-routes");
 htmlRoutes(app);
 
 app.listen(PORT, function () {
-  console.log("App running on port " + PORT + "!");
+  console.log("App running on port " + "http://localhost:" + PORT);
 });
