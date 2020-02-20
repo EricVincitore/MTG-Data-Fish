@@ -1,5 +1,6 @@
 var cheerio = require("cheerio");
 var axios = require("axios");
+var mongoose = require("mongoose");
 
 var db = require("./../models");
 
@@ -24,9 +25,9 @@ module.exports = function (app) {
 
                 var result = {};
 
-                result.title = $(element).find(".stealth-link").text();
-                result.description = $(element).find(".article-tile-abstract").text();
-                result.link = $(element).find(".stealth-link").attr("href");
+                result.title = $(element).children(".article-tile-title").children(".stealth-link").text();
+                result.description = $(element).children(".article-tile-abstract").text();
+                result.link = "https://www.mtggoldfish.com" + $(element).children(".article-tile-title").children(".stealth-link").attr("href");
 
                 db.Article.create(result)
                     .then(function (dbArticle) {
@@ -38,8 +39,9 @@ module.exports = function (app) {
                         console.log(err);
                     });
 
-                res.send("Scrape Complete");
+
             });
+            res.send("Scrape Complete");
         });
     });
 
@@ -72,15 +74,34 @@ module.exports = function (app) {
             });
     });
 
+    app.get("/api/comments", function (req, res) {
+        db.Comment.find({})
+        .then(function (dbComment) {
+            res.json(dbComment);
+        })
+        .catch(function (err) {
+            res.json(err)
+        });
+    });
+
+    app.delete("/api/comments:id", function (req, res) {
+        var id  =   mongoose.Types.ObjectId(req.params.id);
+        db.Comment.deleteOne({ _id: id }, function (err) {
+            if (err) return handleError(err);
+            // deleted at most one tank document
+            res.send("Deleted")
+        });
+    });
+
     // Route for saving/updating an Article's associated Note
     app.post("/articles/:id", function (req, res) {
         // Create a new note and pass the req.body to the entry
-        db.comment.create(req.body)
-            .then(function (dbNote) {
+        db.Comment.create(req.body)
+            .then(function (dbComment) {
                 // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
                 // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
                 // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-                return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbComment._id }, { new: true });
+                return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
             })
             .then(function (dbArticle) {
                 // If we were able to successfully update an Article, send it back to the client
