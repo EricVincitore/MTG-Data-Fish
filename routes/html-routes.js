@@ -60,6 +60,16 @@ module.exports = function (app) {
             });
     });
 
+    app.get("/api/comments", function (req, res) {
+        db.Comment.find({})
+        .then(function (dbComment) {
+            res.json(dbComment);
+        })
+        .catch(function (err) {
+            res.json(err)
+        });
+    });
+
     // Route for grabbing a specific Article by id, populate it with it's note
     app.get("/articles/:id", function (req, res) {
         // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
@@ -75,26 +85,7 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-
-    app.get("/api/comments", function (req, res) {
-        db.Comment.find({})
-        .then(function (dbComment) {
-            res.json(dbComment);
-        })
-        .catch(function (err) {
-            res.json(err)
-        });
-    });
-
-    app.delete("/api/comments/:id", function (req, res) {
-        var id = mongoose.Types.ObjectId(req.params.id);
-        db.Comment.deleteOne({ _id: id }, function (err) {
-            if (err) return handleError(err);
-            // deleted at most one tank document
-            console.log("Deleted")
-        });
-    });
-
+    
     // Route for saving/updating an Article's associated Note
     app.post("/articles/:id", function (req, res) {
         // Create a new note and pass the req.body to the entry
@@ -114,4 +105,14 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
+
+    app.delete("/api/comments/:id", function (req, res) {
+        var id = mongoose.Types.ObjectId(req.params.id);
+        db.Comment.deleteOne({ _id: id }, function (err) {
+            if (err) return handleError(err);
+            // deleted at most one tank document
+            console.log("Deleted")
+        });
+    });
+
 };

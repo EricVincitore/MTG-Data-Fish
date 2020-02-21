@@ -3,7 +3,7 @@ $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + "<b>" + data[i].title + "</b>" + "<br />" + data[i].description + "</p>" + "<a href='" + data[i].link + "' target = '_blank'>" + data[i].link + "</a>" + "<hr>" + "<br />");
+    $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + "<b>" + data[i].title + "</b>" + "<br />" + data[i].description + "</p>" + "<a href='" + data[i].link + "' target = '_blank'>" + data[i].link + "</a>" + "<hr>" + "<br />");
     $("#articles").append("<br>");
   }
 });
@@ -39,14 +39,14 @@ $(document).on("click", "p", function () {
       $("#notes").append("<button data-id='" + data._id + "' id='saveNote'>Save Comment</button>");
 
       
-      // if (data.comment) {
+      if (data.comment) {
         
-      //   $("#titleInput").val(data.comment.title);
+        $("#titleInput").val("");
        
-      //   $("#bodyInput").val(data.comment.body);
+        $("#bodyInput").val("");
         
-      //   $("#userInput").val(data.comment.user);
-      // };
+        $("#userInput").val("");
+      };
 
       $.ajax({
         method: "GET",
@@ -99,7 +99,10 @@ $(document).on("click", "#saveNote", function () {
       // Log the response
       console.log(data);
       // Empty the notes section
-      $("#notes").empty();
+      //$("#notes").empty();
+      $("#titleInput").val("");
+      $("#bodyInput").val("");
+      $("#userInput").val("");
       
     });
 
