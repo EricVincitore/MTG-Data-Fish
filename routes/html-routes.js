@@ -25,6 +25,7 @@ module.exports = function (app) {
 
                 var result = {};
 
+                result.img =  $(element).children(".article-tile-image").children(".card-title").children(".card-img-tile").attr("style");
                 result.title = $(element).children(".article-tile-title").children(".stealth-link").text();
                 result.description = $(element).children(".article-tile-abstract").text();
                 result.link = "https://www.mtggoldfish.com" + $(element).children(".article-tile-title").children(".stealth-link").attr("href");
@@ -32,6 +33,7 @@ module.exports = function (app) {
                 db.Article.create(result)
                     .then(function (dbArticle) {
                         // View the added result in the console
+                        console.log(result)
                         console.log(dbArticle);
                     })
                     .catch(function (err) {
@@ -84,12 +86,12 @@ module.exports = function (app) {
         });
     });
 
-    app.delete("/api/comments:id", function (req, res) {
-        var id  =   mongoose.Types.ObjectId(req.params.id);
+    app.delete("/api/comments/:id", function (req, res) {
+        var id = mongoose.Types.ObjectId(req.params.id);
         db.Comment.deleteOne({ _id: id }, function (err) {
             if (err) return handleError(err);
             // deleted at most one tank document
-            res.send("Deleted")
+            console.log("Deleted")
         });
     });
 
