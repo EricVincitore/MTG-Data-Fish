@@ -37,7 +37,7 @@ $(document).on("click", "p", function () {
       $("#notes").append("<b>" + "User" + "</b>");
       $("#notes").append("<input id='userInput' name='User' >");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' class='btn btn-primary' id='saveNote '>Save Comment</button>");
+      $("#notes").append("<button data-id='" + data._id + "' class='btn btn-primary' id='saveNote'>Save Comment</button>");
 
       $("#comments").empty();
       for (let i = 0; i < data.comment.length; i++) {
@@ -64,6 +64,7 @@ $(document).on("click", "p", function () {
 // When you click the save note button
 $(document).on("click", "#saveNote", function () {
   // Grab the id associated with the article from the submit button
+  console.log("clicked saveNote")
   var thisId = $(this).attr("data-id");
 
   // Run a POST request to change the note, using what's entered in the inputs

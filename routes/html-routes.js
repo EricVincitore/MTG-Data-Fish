@@ -43,7 +43,7 @@ module.exports = function (app) {
 
 
             });
-            res.render("index", {});
+            res.redirect("/");
         });
     });
 
@@ -135,7 +135,7 @@ module.exports = function (app) {
         }).catch(function (err) {
             console.log(err)
         });
-        res.render("index", {});
+        res.redirect("/");
     });
 
 
