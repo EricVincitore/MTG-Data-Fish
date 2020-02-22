@@ -25,9 +25,9 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mtgDataFish";
 //connect to the mongo DB
 mongoose.connect(MONGODB_URI);
 
-app.get("/", function (req, res) {
-  res.json({test: "test"});
-});
+// app.get("/", function (req, res) {
+//   res.json({test: "test"});
+// });
 
 var htmlRoutes = require("./routes/html-routes");
 htmlRoutes(app);
