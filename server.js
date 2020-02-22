@@ -20,7 +20,7 @@ app.engine("handlebars", handlebars({defaultLayout:"main"}));
 app.set("view engine", "handlebars");
 
 //if deployed, use yhe deployed database. Otherwise use hte local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://root:password1@ds251948.mlab.com:51948/heroku_vw3vfr12";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mtgDataFish";
 
 //connect to the mongo DB
 mongoose.connect(MONGODB_URI);
