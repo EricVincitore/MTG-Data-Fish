@@ -20,10 +20,10 @@ app.engine("handlebars", handlebars({defaultLayout:"main"}));
 app.set("view engine", "handlebars");
 
 //if deployed, use yhe deployed database. Otherwise use hte local mongoHeadlines database
-//var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user1:password1@ds117888.mlab.com:17888/heroku_78c10xl3";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://root:password1@ds251948.mlab.com:51948/heroku_vw3vfr12";
 
 //connect to the mongo DB
-mongoose.connect("mongodb://root:password1@ds251948.mlab.com:51948/heroku_bvfq3pdz", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 var htmlRoutes = require("./routes/html-routes");
 htmlRoutes(app);

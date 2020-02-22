@@ -11,7 +11,7 @@ Welcome to MTG Data Fish! Using this app the user can scrape current articles re
 ### Heroku Instructions
 
 1. Navigate to the heroku page for the app using the link at the bottom of this README.
-* https://mongoose-hw-epv1001.herokuapp.com/    
+* https://mtgdatafish.herokuapp.com/
 
 
 2. You should be redirected to a new page that looks as follows.  
@@ -43,7 +43,7 @@ Welcome to MTG Data Fish! Using this app the user can scrape current articles re
 
 ### Heroku Page
 
-https://mongoose-hw-epv1001.herokuapp.com/
+https://mtgdatafish.herokuapp.com/
 
 ### Git-Hub Page
 
