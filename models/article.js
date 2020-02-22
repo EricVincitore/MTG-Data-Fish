@@ -3,7 +3,8 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
-    img: String,
+
+    //img: String,
     title: {
       type: String,
       required: true
@@ -17,9 +18,8 @@ var ArticleSchema = new Schema({
       required: true
     },
     comment: {
-        type: Schema.Types.ObjectId,
-        ref: "Comment"
-    }
+        type: [{type: Schema.Types.ObjectId, ref: "Comment"}]
+      }
 
 });
 

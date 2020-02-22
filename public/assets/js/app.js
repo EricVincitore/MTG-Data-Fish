@@ -3,7 +3,7 @@ $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + "<b>" + data[i].title + "</b>" + "<br />" + data[i].description + "</p>" + "<a href='" + data[i].link + "' target = '_blank'>" + data[i].link + "</a>" + "<hr>" + "<br />");
+    $("#articles").append("<p data-id='" + data[i]._id + "'>" + "<b>" + data[i].title + "</b>" + "<br />" + data[i].description + "</p>" + "<a href='" + data[i].link + "' target = '_blank'>" + data[i].link + "</a>" + "<hr>" + "<br />");
     $("#articles").append("<br>");
   }
 });
@@ -13,6 +13,7 @@ $.getJSON("/articles", function (data) {
 $(document).on("click", "p", function () {
   // Empty the notes from the note section
   $("#notes").empty();
+  $("#comments").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
 
@@ -36,43 +37,27 @@ $(document).on("click", "p", function () {
       $("#notes").append("<b>" + "User" + "</b>");
       $("#notes").append("<input id='userInput' name='User' >");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='saveNote'>Save Comment</button>");
+      $("#notes").append("<button data-id='" + data._id + "' class='btn btn-primary' id='saveNote '>Save Comment</button>");
 
-      
-      if (data.comment) {
-        
-        $("#titleInput").val("");
-       
-        $("#bodyInput").val("");
-        
-        $("#userInput").val("");
+      $("#comments").empty();
+      for (let i = 0; i < data.comment.length; i++) {
+        $("#comments").append("<hr>")
+        $("#comments").append("<p>" + "Title: " + data.comment[i].title + "</p>");
+        $("#comments").append("<p>" + "Body: " + data.comment[i].body + "</p>");
+        $("#comments").append("<p>" + "User: " + data.comment[i].user + "</p>");
+        $("#comments").append("<button data-id='" + data.comment[i]._id + "' class='deleteNote btn btn-danger'>Delete Comment</button>");
+        $("#comments").append("<br>");
       };
-
-      $.ajax({
-        method: "GET",
-        url: "/api/comments"
-      })
-        .then(function (data) {
-
-          $("#comments").empty();
-          for (let i = 0; i < data.length; i++) {
-            $("#comments").append("<p>" + "Title: " + data[i].title + "</p>");
-            $("#comments").append("<p>" + "Body: " + data[i].body + "</p>");
-            $("#comments").append("<p>" + "User: " + data[i].user + "</p>");
-            $("#comments").append("<button data-id='" + data[i]._id + "' class='deleteNote'>Delete Comment</button>");
-            $("#comments").append("<br>");
-          };
-          $(".deleteNote").on("click", function () {
-            var id = $(this).attr("data-id")
-            $.ajax({
-              url: "/api/comments/" + id,
-              method: "DELETE"
-            })
-              .then(function (data) {
-                console.log("delete")
-              });
+      $(".deleteNote").on("click", function () {
+        var id = $(this).attr("data-id")
+        $.ajax({
+          url: "/api/comments/" + id,
+          method: "DELETE"
+        })
+          .then(function (data) {
+            console.log("delete")
           });
-        });
+      });
     });
 });
 
@@ -103,7 +88,7 @@ $(document).on("click", "#saveNote", function () {
       $("#titleInput").val("");
       $("#bodyInput").val("");
       $("#userInput").val("");
-      
+
     });
 
   // Also, remove the values entered in the input and textarea for note entry

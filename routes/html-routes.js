@@ -25,7 +25,7 @@ module.exports = function (app) {
 
                 var result = {};
 
-                result.img =  $(element).children(".article-tile-image").children(".card-title").children(".card-img-tile").attr("style");
+                //result.img =  $(element).children(".article-tile-image").children(".card-title").children(".card-img-tile").attr("style");
                 result.title = $(element).children(".article-tile-title").children(".stealth-link").text();
                 result.description = $(element).children(".article-tile-abstract").text();
                 result.link = "https://www.mtggoldfish.com" + $(element).children(".article-tile-title").children(".stealth-link").attr("href");
@@ -43,7 +43,7 @@ module.exports = function (app) {
 
 
             });
-            res.send("Scrape Complete");
+            res.render("index", {});
         });
     });
 
@@ -94,7 +94,15 @@ module.exports = function (app) {
                 // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
                 // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
                 // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-                return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+                return db.Article.findOneAndUpdate({
+                     _id: req.params.id 
+                    }, {
+                        $push: {
+                            comment: dbComment._id
+                        }
+                    }, { 
+                    new: true
+                    });
             })
             .then(function (dbArticle) {
                 // If we were able to successfully update an Article, send it back to the client
@@ -114,5 +122,22 @@ module.exports = function (app) {
             console.log("Deleted")
         });
     });
+
+    app.get("/deleteAll", function (req, res) {
+        db.Comment.deleteMany({}).then(function (data) {
+            console.log("hello");
+            db.Article.deleteMany({}).then(function (data) {
+                console.log("database Deleted")
+
+            }).catch(function (err) {
+                console.log(err)
+            });
+        }).catch(function (err) {
+            console.log(err)
+        });
+        res.render("index", {});
+    });
+
+
 
 };

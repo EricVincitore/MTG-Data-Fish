@@ -1,5 +1,5 @@
 body { 
-    background-color: #F2F6D0 
+    background-color: lightsteelblue 
 }
 
 #wrapper {
@@ -15,6 +15,11 @@ body {
     width: 60%;
     height: 700px;
 }
+
+#saveNote{
+ margin-top: 1%;
+}
+
 #notes {
     margin-bottom: 0%;
     float: right;
@@ -22,7 +27,6 @@ body {
 }
 
 #comments {
-    margin-top: 5%;
     margin-bottom: 10%;
     float: right;
     width: 30%;
@@ -31,7 +35,7 @@ body {
 textarea, input {
     display: block;
     width: 100%;
-    background-color: #FCF5C7;
+    background-color: azure;
 }
       
 input {
